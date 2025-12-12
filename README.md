@@ -9,9 +9,9 @@ It identifies locks that haven’t been checked in 30+ days, simulates sending r
 
 The system fulfills three primary goals:
 
-✔ Identify inactive/stale locks
-✔ Send automated reminders
-✔ Measure user engagement (CTR analytics)
+- ✔ Identify inactive/stale locks
+- ✔ Send automated reminders
+- ✔ Measure user engagement (CTR analytics)
 
 ---
 
@@ -125,16 +125,16 @@ Simple ML logic to predict potential battery drain.
 ---
 
 ## 📎 Repository Structure (Suggested)
-/
-│── main.py
-│── analytics/
-│     ├── __init__.py
-│     ├── click.py
-│     ├── summary.py
-│── locks.json
-│── sent_notifications.json
-│── click_logs.json
-│── README.md
+- /
+- │── main.py
+- │── analytics/
+- │     ├── __init__.py
+- │     ├── click.py
+- │     ├── summary.py
+- │── locks.json
+- │── sent_notifications.json
+- │── click_logs.json
+- │── README.md
 
 ---
 
