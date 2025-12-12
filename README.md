@@ -1,5 +1,5 @@
 🔋 Battery Health Reminder System (Python Local Version)
-
+---
 A Python-based automated reminder system that detects stale smart lock battery updates, sends simulated notifications, and tracks user engagement (click tracking).
 Designed to run locally, without AWS, using simple JSON files as mock databases.
 
@@ -135,3 +135,6 @@ This project is intentionally simple and educational — perfect for beginners l
 
 📜 License
 This project is released under the MIT License.
+
+👨‍💻 Author
+Bharath B AI Internship Assignment — Atomberg
