@@ -1,140 +1,160 @@
-🔋 Battery Health Reminder System (Python Local Version)
----
-A Python-based automated reminder system that detects stale smart lock battery updates, sends simulated notifications, and tracks user engagement (click tracking).
-Designed to run locally, without AWS, using simple JSON files as mock databases.
+🔋 Automated Battery Health Reminder System
 
-📌 Features
-✅ Detect stale locks
-Reads mock lock data from locks.json
-Identifies locks not checked in the last 30 days
+A lightweight local Python-based system for monitoring stale smart-lock battery checks, sending reminders, and tracking CTR analytics.
 
-✅ Send simulated notifications
-Generates a unique campaign ID for each weekly run
-Logs all notifications in sent_notifications.json
+📌 Project Overview
 
-✅ Track user click interactions
-CLI-based “click” simulation
-Stores clicks in click_logs.json
+This project automates battery health reminders for smart locks.
+It identifies locks that haven’t been checked in 30+ days, simulates sending reminder notifications, and tracks user engagement through click logs.
 
-✅ Campaign analytics
-Computes:
-Notifications Sent
-Clicks
-CTR (Click-Through Rate)
+The system fulfills three primary goals:
 
-Displays a professional campaign summary
+✔ Identify inactive/stale locks
 
-📁 Project Structure
-battery-reminder-project/
-│
-├── src/
-│   ├── main.py
-│   ├── dynamo.py
-│   ├── analytics.py
-│   └── __init__.py
-│
-├── data/
-│   ├── locks.json
-│   ├── sent_notifications.json
-│   └── click_logs.json
-│
-├── config/
-│   └── (optional future configs)
-│
-└── venv/ (Python virtual environment)
+✔ Send automated reminders
 
-⚙️ Installation & Setup
-1. Clone the repository
-git clone https://github.com/<your-username>/battery-reminder-project.git
-cd battery-reminder-project
+✔ Measure user engagement (CTR analytics)
 
-2. Create & activate virtual environment
-Windows (PowerShell):
-python -m venv venv
-.\venv\Scripts\Activate.ps1
+🎯 Objective
 
-Linux / macOS:
-python3 -m venv venv
-source venv/bin/activate
+The main objective is to notify users automatically when their lock battery status has not been checked recently.
+The system also tracks user clicks on notifications to measure effectiveness.
 
-3. Add sample lock data
+🧰 Tech Stack & Tools
+Programming Language
 
-Update/Create data/locks.json:
+Python 3.x
 
-[
-  { "lock_id": "L001", "last_checked": "2024-10-01T00:00:00" },
-  { "lock_id": "L002", "last_checked": "2025-01-01T00:00:00" },
-  { "lock_id": "L003", "last_checked": "2024-05-15T10:30:00" }
-]
+Libraries Used
 
-🚀 How to Run the System
-Run the weekly reminder job
-python src/main.py
+(All standard Python libraries — no external DB or cloud services)
 
+json → Mock database storage
 
-Sample Output:
+datetime → Stale lock calculation
 
-Starting weekly battery reminder job...
-Campaign ID: 123e4567-e89b-12d3-a456-426614174000Found 2 stale locks.
-Sending FCM notification to lock L001
-Logged SENT notification for L001
-Sending FCM notification to lock L003
-Logged SENT notification for L003
-Job complete.
+uuid → Campaign ID generation
 
-🖱 Simulate User Click Tracking
-1. Log a click
-python -m src.analytics click L001 <campaign_id>
+📂 Local Mock Database Setup
 
+The system uses three JSON files acting as lightweight local databases:
 
-Adds a record to click_logs.json.
+Purpose	File	Description
+Lock Data	locks.json	Simulates a DynamoDB lock-status table
+Notification Log	sent_notifications.json	Stores reminders sent
+Click Log	click_logs.json	Tracks user clicks on reminders
 
-2. View campaign summary
-python -m src.analytics summary <campaign_id>
+These mock DBs make the system completely self-contained and runnable locally.
 
+🏗 System Architecture
+🔄 Flow Overview
 
-Example Output:
+Load Lock Data → Reads locks.json
 
-Campaign Summary
--------------------------
-Campaign ID: 123e4567-e89b-12d3-a456-426614174000
-Notifications Sent: 2
-Clicks: 1
-CTR: 50.0%
+Identify Stale Locks → Locks not checked in the last 30 days
 
-📊 How CTR (Click Through Rate) Works
-CTR = (Total Clicks / Total Notifications Sent) × 100
-Used to measure:
-User engagement
-Effectiveness of reminders
-Interest in battery maintenance
+Send Notification (Simulated)
 
-🧱 Future Enhancements
-This local simulation can be expanded into a full production system:
+Log Notification Activity → Writes to sent_notifications.json
 
-🔹 Migration to AWS (optional)
-DynamoDB → lock data
-PostgreSQL (RDS) → user-lock mapping
-AWS Lambda → weekly automation
-FCM → real notifications
+Track User Clicks → CLI simulation
 
-🔹 UI Dashboard for reports
-Charts for CTR
-Lock status overview
+Generate CTR Summary → Using notification & click logs
 
-🔹 Predictive alerts
-Estimate battery life
-Predict failure before it happens
+This architecture allows complete offline execution and analysis.
 
-📄 Project Report
-A full 2-page project submission is included in the documentation section of this repository.
+▶️ How to Run the Project
+1. Run the weekly reminder script
+python main.py
 
-🤝 Contributions
-Pull requests and feature suggestions are welcome!
-This project is intentionally simple and educational — perfect for beginners learning automation logic.
+2. Simulate a notification click
+python -m analytics click <lock_id> <campaign_id>
 
-📜 License
-This project is released under the MIT License.
+3. Generate CTR summary
+python -m analytics summary <campaign_id>
 
-👨‍💻 Author
-Bharath B AI Internship Assignment — Atomberg
+📊 Findings
+
+Based on sample logs and workflow 
+
+Battery_Reminder_Project_Docume…
+
+:
+
+A. Users often forget battery checks
+
+Many locks crossed the 30-day threshold → users fail to monitor battery health.
+
+B. Notifications improve engagement
+
+CTR metrics show users respond when reminded.
+Example:
+
+Notifications Sent: 10
+
+Clicks: 4
+
+CTR: 40%
+
+C. CTR is a strong performance indicator
+
+High CTR → Good timing + helpful reminder
+
+Low CTR → Needs better wording/timing
+
+D. Separate logs improve analytics
+
+sent_notifications.json + click_logs.json keep data clean and analyzable.
+
+📈 Recommendations for Future Enhancements
+☁️ 1. Migrate to Cloud (Production Version)
+
+AWS DynamoDB (lock data)
+
+AWS RDS PostgreSQL (user mapping)
+
+AWS Lambda (automated weekly runs)
+
+FCM (real push notifications)
+
+✉️ 2. Improve Notification Content
+
+Estimated battery life
+
+Time since last check
+
+Strong CTA buttons
+
+🎁 3. Introduce User Incentives
+
+Reward points or badges for regular maintenance.
+
+📊 4. Add In-App Battery Dashboard
+
+Visualizations for
+
+Battery history
+
+Trends
+
+Predictions
+
+🔮 5. Predict Battery Failure
+
+Simple ML logic to predict potential battery drain.
+
+📎 Repository Structure (Suggested)
+/
+│── main.py
+│── analytics/
+│     ├── __init__.py
+│     ├── click.py
+│     ├── summary.py
+│── locks.json
+│── sent_notifications.json
+│── click_logs.json
+│── README.md
+
+🌐 GitHub Repository
+
+https://github.com/Bharath-B1805/Atomberg_Battery_Remainder
